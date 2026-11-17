@@ -1,0 +1,5 @@
+{
+  "name": "prompt-master",
+  "owner": { "name": "dslpetersen-stack" },
+  "plugins": [{ "name": "prompt-master", "source": "./" }]
+}

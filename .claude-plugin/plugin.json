@@ -1,0 +1,6 @@
+{
+  "name": "prompt-master",
+  "version": "0.1.0",
+  "description": "Knappen Prompt Master over tekstfeltet omskriver din rå prompt til en klarere prompt i feltet. Den sender aldrig selv, og du kan fortryde.",
+  "types": "./types/index.d.ts"
+}
