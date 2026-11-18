@@ -98,3 +98,20 @@ test('du skriver videre, mens modellen arbejder: din nye tekst overskrives ikke'
   expect((await ui.find({ type: 'Text', text: /ændrede teksten undervejs/ } as any))?.text).toBeTruthy()
   await ui.unmount()
 })
+
+test('den røde besked forsvinder, når du begynder at skrive', async ($, on) => {
+  const s = fakeEngine(on, { isAnswered: true, text: BETTER })
+  s.box = ''
+  on('prompt.edit', (_: unknown, e: any) => ({ text: e.text, cursor: e.cursor }) as any)
+  const ui = await $.ui.mount({ ...BAND, surface: 'desktop' } as any)
+  await ui.press({ key: 'improve' } as any)
+  expect((await ui.find({ type: 'Text', text: /Skriv først/ } as any))?.text).toBeTruthy()
+
+  // Brugeren taster et bogstav.
+  await ($ as any).prompt.edit({ origin: { kind: 'composer' }, text: '', cursor: 0, start: 0, end: 0, inputText: 'l' })
+  await ui.unmount()
+  const ui2 = await $.ui.mount({ ...BAND, surface: 'desktop' } as any)
+  expect(await ui2.find({ type: 'Text', text: /Skriv først/ } as any)).toBeFalsy()
+  expect(await ui2.find({ type: 'Button', key: 'improve' } as any)).toBeTruthy()
+  await ui2.unmount()
+})
